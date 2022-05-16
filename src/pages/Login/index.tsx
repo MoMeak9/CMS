@@ -10,7 +10,6 @@ function Login () {
   async function onFinish (values:any) {
     console.log(values)
     // values：放置的是所有表单项中用户输入的内容
-    // todo:登录
     const { mobile, code } = values
     await loginStore.getToken({ mobile, code })
     // 跳转首页
