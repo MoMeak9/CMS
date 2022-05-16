@@ -1,13 +1,13 @@
 import { Card, Form, Input, Checkbox, Button, message } from 'antd'
-import logo from '@/assets/logo.png'
+import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
 // 导入样式文件
 import './index.scss'
-import { useStore } from '@/store'
+import { useStore } from '../../store'
 function Login () {
   const { loginStore } = useStore()
   const navigate = useNavigate()
-  async function onFinish (values) {
+  async function onFinish (values:any) {
     console.log(values)
     // values：放置的是所有表单项中用户输入的内容
     // todo:登录
