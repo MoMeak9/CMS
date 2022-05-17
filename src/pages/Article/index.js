@@ -1,4 +1,4 @@
-import img404 from '@/assets/error.png'
+import img404 from '../../assets/error.png'
 import './index.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'

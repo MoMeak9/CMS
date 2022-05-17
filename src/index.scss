@@ -4,7 +4,12 @@ body {
 
 #root {
   height: 100%;
-  .App {
-    color: red;
-  }
+}
+
+.layout {
+  display: flex;
+  padding: 0 24px 24px;
+  flex-direction: column;
+  height: 100%;
+  background-color: #fff;
 }
