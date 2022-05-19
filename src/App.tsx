@@ -1,3 +1,4 @@
+import React from 'react';
 import { unstable_HistoryRouter as HistoryRouter, Routes, Route } from 'react-router-dom'
 import { history } from './utils'
 
@@ -11,6 +12,7 @@ const Layout = lazy(() => import('./pages/Layout'))
 const Home = lazy(() => import('./pages/Home'))
 const Article = lazy(() => import('./pages/Article'))
 const Publish = lazy(() => import('./pages/Publish'))
+const MCServer = lazy(() => import('./pages/MCServer'))
 
 function App () {
   return (
@@ -41,6 +43,7 @@ function App () {
                 <Route index element={<Home />}></Route>
                 <Route path='article' element={<Article />}></Route>
                 <Route path='publish' element={<Publish />}></Route>
+                <Route path='mcserver' element={<MCServer />}></Route>
               </Route>
               {/* 这个不需要 */}
               <Route path='/login' element={<Login />}></Route>

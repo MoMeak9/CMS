@@ -1,5 +1,5 @@
 import {Layout, Menu, Popconfirm} from 'antd'
-import {Outlet, useNavigate} from 'react-router-dom'
+import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom'
 import {observer} from 'mobx-react-lite'
 import type {MenuProps} from 'antd';
 import {
@@ -34,28 +34,19 @@ function getItem(
     } as MenuItem;
 }
 
-const items: MenuItem[] = [
-    getItem('Option 1', '1', <PieChartOutlined/>),
-    getItem('Option 2', '2', <DesktopOutlined/>),
-    getItem('Option 3', '3', <ContainerOutlined/>),
-
-    getItem('Navigation One', 'sub1', <MailOutlined/>, [
-        getItem('Option 5', '5'),
-        getItem('Option 6', '6'),
-        getItem('Option 7', '7'),
-        getItem('Option 8', '8'),
-    ]),
-
-    getItem('Navigation Two', 'sub2', <AppstoreOutlined/>, [
-        getItem('Option 9', '9'),
-        getItem('Option 10', '10'),
-
-        getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
-    ]),
-];
+const GetMenu = (itemList: any[] | undefined = []) => {
+    const menuItems: MenuProps['items'] = [
+        {label: '控制台面板', key: '/'}, // 菜单项务必填写 key
+        {label: 'MC服务器', key: '/mcserver'},
+    ];
+    return menuItems.map((item: any) => {
+        return <Menu.Item key={item.key}></Menu.Item>
+    });
+}
 
 const GeekLayout = () => {
-    // const {pathname} = useLocation()
+
+    const {pathname} = useLocation()
     const {userStore, loginStore, channelStore} = useStore()
     useEffect(() => {
         userStore.getUserInfo()
@@ -96,12 +87,13 @@ const GeekLayout = () => {
                 <Sider width={200}
                        className="site-layout-background"
                        collapsible={true}>
-                    <Menu defaultSelectedKeys={['1']}
-                          defaultOpenKeys={['sub1']}
+                    <Menu defaultSelectedKeys={[pathname]}
+                          selectedKeys={[pathname]}
                           mode="inline"
                           theme="dark"
-                          items={items}
-                    />
+                    >
+                        {GetMenu()}
+                    </Menu>
                 </Sider>
                 <Layout className="layout-content" style={{padding: 20}}>
                     {/* 二级路由出口 */}
