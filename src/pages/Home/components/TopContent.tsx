@@ -5,9 +5,7 @@ import {
     HomeOutlined,
 } from '@ant-design/icons';
 
-
-type Props = {};
-export const TopContent = (props: Props) => {
+export const TopContent = () => {
     return (
         <Row gutter={16}>
             <Col span={6}>

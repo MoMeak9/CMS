@@ -7,6 +7,7 @@
 import { getToken } from '@/utils'
 import { Navigate } from 'react-router-dom'
 
+// eslint-disable-next-line react/prop-types
 function AuthComponent ({ children }) {
   const isToken = getToken()
   if (isToken) {

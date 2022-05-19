@@ -1,46 +1,49 @@
-import {Layout, Menu, Popconfirm} from 'antd'
+import {Breadcrumb, Layout, Menu, Popconfirm} from 'antd'
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom'
 import {observer} from 'mobx-react-lite'
 import type {MenuProps} from 'antd';
 import {
-    AppstoreOutlined,
-    PieChartOutlined,
-    LogoutOutlined,
-    DesktopOutlined,
-    ContainerOutlined,
-    MailOutlined,
+    LogoutOutlined, PieChartOutlined,
 } from '@ant-design/icons'
 import './index.scss'
 import {useStore} from '../../store'
 import React, {useEffect, useState} from 'react'
 
-type MenuItem = Required<MenuProps>['items'][number];
-
 const {Header, Sider} = Layout
 
-function getItem(
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-    type?: 'group',
-): MenuItem {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    } as MenuItem;
-}
-
-const GetMenu = (itemList: any[] | undefined = []) => {
+const GetMenu = (itemList: MenuProps['items'] | undefined = []) => {
     const menuItems: MenuProps['items'] = [
-        {label: '控制台面板', key: '/'}, // 菜单项务必填写 key
-        {label: 'MC服务器', key: '/mcserver'},
+        {label: '控制台面板', key: '/', icon: <PieChartOutlined/>}, // 菜单项务必填写 key
+        {
+            label: 'MC服务器', key: '/mcserver', children: [
+                {label: '服务器统计', key: '/mcserver'},
+                {label: '玩家列表', key: '/mcserver/player'},
+                {label: '卫星地图', key: '/mcserver/map'},
+            ]
+        },
+        {label: '游戏服务器', key: '/gameserver'},
     ];
     return menuItems.map((item: any) => {
-        return <Menu.Item key={item.key}></Menu.Item>
+        if (item.children) {
+            return (
+                <Menu.SubMenu title={item.label} icon={item.icon}>
+                    {
+                        item.children.map((child:any) => {
+                            return (
+                                <Menu.Item key={child.key}>
+                                    <Link to={child.key}>{child.label}</Link>
+                                </Menu.Item>
+                            )
+                        })}
+                </Menu.SubMenu>
+            )
+        } else {
+            return (
+                <Menu.Item key={item.key} icon={item.icon}>
+                    <Link to={item.key}>{item.label}</Link>
+                </Menu.Item>
+            )
+        }
     });
 }
 
@@ -97,6 +100,15 @@ const GeekLayout = () => {
                 </Sider>
                 <Layout className="layout-content" style={{padding: 20}}>
                     {/* 二级路由出口 */}
+                    <Breadcrumb style={{marginBottom: '16px'}}>
+                        {
+                            pathname.split("/").map((item, index) => {
+                                return (
+                                    <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                )
+                            })
+                        }
+                    </Breadcrumb>
                     <Outlet/>
                 </Layout>
             </Layout>
