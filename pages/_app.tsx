@@ -1,13 +1,13 @@
-import Layout from '../components/Layout'
+import Layouts from '../components/Layout'
 import {AppProps} from "next/app";
 import 'antd/dist/antd.css';
 import '../styles/login.scss';
 
 function MyApp({Component, pageProps}: AppProps) {
     return (
-        <Layout>
+        <Layouts>
             <Component {...pageProps} />
-        </Layout>
+        </Layouts>
     )
 }
 

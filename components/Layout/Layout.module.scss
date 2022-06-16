@@ -1,0 +1,44 @@
+.ant-layout {
+  height: 100%;
+}
+
+.header {
+  padding: 0;
+
+  .logo {
+    height: 60px;
+    background: no-repeat center url("https://lwmc.net/_nuxt/img/logo.e536265.png");
+  }
+}
+
+.layoutContent {
+  height: 100%;
+  padding: 20px;
+  background-color: #eef0f3;
+  overflow-y: auto;
+}
+
+.side {
+  height: 100%;
+}
+
+.userInfo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 20px;
+  color: #fff;
+
+  .userName {
+    margin-right: 20px;
+  }
+
+  .userLogout {
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.ant-layout-header {
+  padding: 0 !important;
+}
