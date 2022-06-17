@@ -2,30 +2,35 @@ import type {NextPage} from 'next'
 import {Card, Form, Input, Checkbox, Button, message} from 'antd'
 import Router from 'next/router'
 import {useStore} from '../store'
+import {login} from "../api/user";
 
 const Login: NextPage = ({}) => {
-    const {loginStore} = useStore()
+    const {userStore} = useStore()
 
     async function onFinish(values: {
-        mobile: string,
-        code: string,
+        user_email: string,
+        user_password: string,
     }) {
-        console.log(values)
         // values：放置的是所有表单项中用户输入的内容
-        const {mobile, code} = values
-        await loginStore.getToken({mobile, code})
-        // 跳转首页
-        await Router.replace('/')
-        // 提示用户
-        message.success('登录成功')
+        const {user_email, user_password} = values
+        const {data} = await login({user_email, user_password})
+        if (data.userBean.user_role === 1) {
+            userStore.setToken(data.token)
+            // 跳转首页
+            await Router.replace('/')
+            // 提示用户
+            message.success('登录成功')
+        } else {
+            message.error('你不是管理员捏！')
+        }
     }
 
     return (
         <div className="login">
             <Card className="login-container">
                 <img className="login-logo"
-                       src="https://lwmc.net/_nuxt/img/logo.e536265.png"
-                       alt=""/>
+                     src="https://lwmc.net/_nuxt/img/logo.e536265.png"
+                     alt=""/>
                 {/* 登录表单 */}
                 {/* 子项用到的触发事件 需要在Form中都声明一下才可以 */}
                 <Form
@@ -36,36 +41,31 @@ const Login: NextPage = ({}) => {
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        name="mobile"
+                        name="user_email"
                         rules={[
                             {
                                 required: true,
-                                message: '请输入手机号',
+                                message: '请输入您的邮箱',
                             },
                             {
-                                pattern: /^1[3-9]\d{9}$/,
-                                message: '请输入正确的手机号',
+                                pattern: /^.*@.*\..*$/,
+                                message: '请输入正确的邮箱',
                                 validateTrigger: 'onBlur'
                             }
                         ]}
                     >
-                        <Input size="large" placeholder="请输入手机号"/>
+                        <Input size="large" placeholder="请输入邮箱"/>
                     </Form.Item>
                     <Form.Item
-                        name="code"
+                        name="user_password"
                         rules={[
                             {
                                 required: true,
                                 message: '请输入密码',
                             },
-                            {
-                                len: 6,
-                                message: '请输入6位密码',
-                                validateTrigger: 'onBlur'
-                            }
                         ]}
                     >
-                        <Input size="large" placeholder="请输入验证码"/>
+                        <Input size="large" placeholder="请输入密码"/>
                     </Form.Item>
                     <Form.Item
                         name="remember"

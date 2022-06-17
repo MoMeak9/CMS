@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { http } from '../utils'
+import { request } from '../utils'
 class ChannelStore {
   channelList = []
   constructor() {
@@ -7,7 +7,7 @@ class ChannelStore {
   }
   // article publish 哪里调用这个函数呢？
   loadChannelList = async () => {
-    const res = await http.get('/channels')
+    const res = await request.get('/channels')
     this.channelList = res.data.channels
   }
 }

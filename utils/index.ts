@@ -1,6 +1,6 @@
 // 先把所有的工具函数导出的模块在这里导入
 // 然后再统一导出
-import { http } from './http'
+import request from './http'
 import {
   setToken,
   getToken,
@@ -10,7 +10,7 @@ import {
 // import { history } from './history'
 
 export {
-  http,
+  request,
   setToken,
   getToken,
   removeToken,
