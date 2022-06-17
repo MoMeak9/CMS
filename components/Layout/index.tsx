@@ -57,7 +57,7 @@ const GetMenu = (itemList: MenuProps['items'] | undefined = []) => {
 
 export default function Layouts({children}: any) {
     const {pathname,push} = useRouter()
-    const {userStore, loginStore, channelStore} = useStore()
+    const {userStore, channelStore} = useStore()
 
     useEffect(() => {
         userStore.getUserInfo()
@@ -67,7 +67,7 @@ export default function Layouts({children}: any) {
     // 确定退出
     const onConfirm = () => {
         // 退出登录 删除token 跳回到登录
-        loginStore.loginOut()
+        userStore.loginOut()
         push('/login')
     }
 

@@ -1,7 +1,6 @@
 import {NextPage} from "next";
 
-type Props = {};
-const User:NextPage = (props: Props) => {
+const User: NextPage = () => {
     return (
         <div>
             s

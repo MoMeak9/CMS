@@ -1,6 +1,6 @@
 import {NextPage} from "next";
 
-const Player:NextPage = () => {
+const Message: NextPage = () => {
     return (
         <div>
             s
@@ -8,4 +8,4 @@ const Player:NextPage = () => {
     );
 };
 
-export default Player;
+export default Message;

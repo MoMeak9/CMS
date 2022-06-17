@@ -14,8 +14,8 @@ class UserStore {
 
     getUserInfo = async () => {
         // 调用接口获取数据
-        const res = await request.get('/user/profile')
-        this.userInfo = res.data
+        // const res = await request.get('/user/profile')
+        // this.userInfo = res.data
     }
 
     getToken = async ({mobile = '', password = ''}) => {
