@@ -1,58 +1,39 @@
-import {unstable_HistoryRouter as HistoryRouter, Routes, Route} from 'react-router-dom'
-import {history} from './utils'
+import { useState, useEffect } from "react";
+import { getBrowserLang } from "@/utils/util";
+import { ConfigProvider } from "antd";
+import { connect } from "react-redux";
+import { HashRouter } from "react-router-dom";
+import AuthRouter from "@/routers/utils/authRouter";
+import Router from "@/routers/index";
+import zhCN from "antd/lib/locale/zh_CN";
+import enUS from "antd/lib/locale/en_US";
+import "moment/dist/locale/zh-cn";
 
-import './App.css'
-import {AuthComponent} from './components/AuthComponent'
-import {lazy, Suspense} from 'react'
+const App = (props: any) => {
+	const [i18nLocale, setI18nLocale] = useState(zhCN);
 
-// 按需导入组件
-const Login = lazy(() => import('./pages/Login'))
-const Layout = lazy(() => import('./pages/Layout'))
-const Home = lazy(() => import('./pages/Home'))
-const Article = lazy(() => import('./pages/Article'))
-const Publish = lazy(() => import('./pages/Publish'))
-const MCServer = lazy(() => import('./pages/MCServer'))
-const MCServerPlayer = lazy(() => import('./pages/MCServer/Player'))
+	const setLanguage = () => {
+		// 如果 redux 中有默认语言就设置成 redux 的默认语言，没有默认语言就设置成浏览器默认语言
+		if (props.language && props.language == "zh") return setI18nLocale(zhCN);
+		if (props.language && props.language == "en") return setI18nLocale(enUS);
+		if (getBrowserLang() == "zh") return setI18nLocale(zhCN);
+		if (getBrowserLang() == "en") return setI18nLocale(enUS);
+	};
 
-function App() {
-    return (
-        // 路由配置
-        <HistoryRouter history={history}>
-            <div className="App">
-                <Suspense
-                    fallback={
-                        <div
-                            style={{
-                                textAlign: 'center',
-                                marginTop: 200
-                            }}
-                        >
-                            loading...
-                        </div>
-                    }
-                >
-                    <Routes>
-                        {/* 创建路由path和组件对应关系 */}
-                        {/* Layout需要鉴权处理的 */}
-                        {/* 这里的Layout不一定不能写死 要根据是否登录进行判断 */}
-                        <Route path='/' element={
-                            <AuthComponent>
-                                <Layout/>
-                            </AuthComponent>
-                        }>
-                            <Route index element={<Home/>}></Route>
-                            <Route path='article' element={<Article/>}></Route>
-                            <Route path='publish' element={<Publish/>}></Route>
-                            <Route path='mcserver' element={<MCServer/>}></Route>
-                            <Route path='mcserver/player' element={<MCServerPlayer/>}></Route>
-                        </Route>
-                        {/* 这个不需要 */}
-                        <Route path='/login' element={<Login/>}></Route>
-                    </Routes>
-                </Suspense>
-            </div>
-        </HistoryRouter>
-    )
-}
+	useEffect(() => {
+		setLanguage();
+	}, [props.language]);
 
-export default App;
+	return (
+		<HashRouter>
+			<ConfigProvider locale={i18nLocale} componentSize={props.assemblySize}>
+				<AuthRouter>
+					<Router />
+				</AuthRouter>
+			</ConfigProvider>
+		</HashRouter>
+	);
+};
+
+const mapStateToProps = (state: any) => state.global;
+export default connect(mapStateToProps)(App);
